@@ -58,6 +58,10 @@ export default /*#__PURE__*/{
           numOfOrientation: 5
         }
       }
+    },
+    animationDuration: {
+      type: Number,
+      default: 1000
     }
   },
   data() {
@@ -110,7 +114,7 @@ export default /*#__PURE__*/{
     draw(words) {
       const width = this.$el.clientWidth
       const height = this.$el.clientHeight
-      const texts = d3.select(this.$el)
+      let texts = d3.select(this.$el)
           .select('svg')
           .attr('width', width)
           .attr('height', height)
@@ -118,39 +122,28 @@ export default /*#__PURE__*/{
           .attr('transform', `translate(${width / 2},${height / 2})`)
           .selectAll('text')
           .data(words, w => w.text)
-      texts
-          .style('font-family', d => d.font)
-          .style('fill', this.fillFunc)
-          .style('outline', (d, i) => d.bordered ? `2px solid ${this.fillFunc(d, i)}` : '')
-          .transition()
-          .style('font-size', d => {
-            return `${d.size}px`
-          })
-          .attr('transform', d => {
-            return `translate(${[d.x, d.y]})rotate(${d.rotate})`
-          })
-          .duration(2000)
-      texts
+      texts.exit()
+          .remove()
+      texts = texts
           .enter()
           .append('text')
           .text(d => d.text)
           .on('click', (e, d) => {
             this.$emit('wordClicked', d)
           })
-          .style('font-family', d => d.font)
-          .attr('text-anchor', 'middle')
-          .style('fill', this.fillFunc)
-          .style('outline', (d, i) => d.bordered ? `2px solid ${this.fillFunc(d, i)}` : '')
-          .transition()
-          .style('font-size', d => {
-            return `${d.size}px`
-          })
-          .attr('transform', d => {
-            return `translate(${[d.x, d.y]})rotate(${d.rotate})`
-          })
-          .duration(2000)
-      texts.exit()
-          .remove()
+          .merge(texts)
+      texts.style('font-family', d => d.font)
+        .attr('text-anchor', 'middle')
+        .style('fill', this.fillFunc)
+        .style('outline', (d, i) => d.bordered ? `2px solid ${this.fillFunc(d, i)}` : '')
+        .transition()
+        .style('font-size', d => {
+          return `${d.size}px`
+        })
+        .attr('transform', d => {
+          return `translate(${[d.x, d.y]})rotate(${d.rotate})`
+        })
+        .duration(this.animationDuration)
     }
   },
   computed: {

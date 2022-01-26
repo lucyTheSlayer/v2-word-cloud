@@ -19,6 +19,7 @@ npm install v2-word-cloud --save
         :words="words"
         @wordClicked="onWordClicked"
         :font-size="[12, 68]"
+        :animation-duration="1000"
     >
     </v2-word-cloud>
   </div>

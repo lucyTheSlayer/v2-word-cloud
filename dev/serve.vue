@@ -4,6 +4,7 @@
         style="width: 40vw; height: 400px;"
         :words="words"
         @wordClicked="onWordClicked"
+        :animation-duration="2000"
     />
     <button @click="addWord">add</button>
   </div>

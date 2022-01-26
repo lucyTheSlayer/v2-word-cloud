@@ -1,6 +1,6 @@
 {
   "name": "v2-word-cloud",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "author": "saber_zyl <saber_zyl@qq.com>",
   "description": "a word cloud vue component",
